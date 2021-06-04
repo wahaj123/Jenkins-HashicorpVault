@@ -1,0 +1,17 @@
+node {
+    def secrets = [
+        //make sure the path is given right. In my secrets I have created a folder called kvv and then create a secrete called kv in it.
+        // provide the vaultkey key to get its value
+        [path: 'kvv/kv', engineVersion: 2, secretValues: [
+            [vaultKey: 'Akamai'], [vaultKey: 'annka']]]
+    ]
+    //Change the vaultUrl to your own url and credentials to your own credentials
+    def configuration = [vaultUrl: 'http://3.15.225.210:8200',
+                         vaultCredentialId: 'vault-token',
+                         engineVersion: 1]
+    // inside this block your credentials will be available as env variables
+    withVault([configuration: configuration, vaultSecrets: secrets]) {
+        sh 'echo $Akamai'
+        sh 'echo $annka'
+    }
+}
